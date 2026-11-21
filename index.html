@@ -36,24 +36,20 @@ ol{padding-left:20px;margin:28px 0 0}li{margin-bottom:8px}
 </ol>
 </main>
 <script>
-var LOGO=(location.protocol.indexOf("http")===0)?new URL("logo-spade-white.png",location.href).href:"logo-spade-white.png";
+var LOGO=(location.protocol.indexOf("http")===0)?new URL("logo-spade-forest.png",location.href).href:"logo-spade-forest.png";
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
 function build(v){
 var F='font-family:Arial,Helvetica,sans-serif;';
 var line=[];var SEP='<span style="color:#B3C5A0;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>';
-if(v.email)line.push('<a href="mailto:'+esc(v.email)+'" style="color:#FFFFFF;text-decoration:none;">'+esc(v.email)+'</a>');
-if(v.phone)line.push('<a href="tel:'+esc(v.phone.replace(/[^+0-9]/g,""))+'" style="color:#FFFFFF;text-decoration:none;">'+esc(v.phone)+'</a>');
-var links='<a href="https://www.spade.com" style="color:#B2EB76;text-decoration:underline;">spade.com</a>';
-if(v.linkedin)links+=SEP+'<a href="'+esc(v.linkedin)+'" style="color:#B2EB76;text-decoration:underline;">LinkedIn</a>';
-return '<table cellpadding="0" cellspacing="0" border="0" role="presentation" width="480" style="width:480px;max-width:100%;border-collapse:collapse;"><tr><td bgcolor="#18280E" style="background-color:#18280E;padding:24px 28px;border-radius:8px;'+F+'">'
-+'<table cellpadding="0" cellspacing="0" border="0" role="presentation" width="424" style="width:424px;border-collapse:collapse;">'
-+'<tr><td style="padding:0 0 18px 0;"><a href="https://www.spade.com"><img src="'+LOGO+'" alt="Spade" width="104" height="21" style="display:block;border:0;width:104px;height:21px;"></a></td></tr>'
-+'<tr><td style="font-size:0;line-height:0;"><table cellpadding="0" cellspacing="0" border="0" role="presentation" width="40"><tr><td width="40" height="2" bgcolor="#B2EB76" style="background-color:#B2EB76;font-size:0;line-height:0;height:2px;">&nbsp;</td></tr></table></td></tr>'
-+'<tr><td style="padding:16px 0 0 0;'+F+'font-size:20px;line-height:24px;font-weight:bold;color:#FFFFFF;">'+esc(v.name)+'</td></tr>'
-+'<tr><td style="padding:2px 0 0 0;'+F+'font-size:14px;line-height:20px;color:#B2EB76;">'+esc(v.title)+', Spade</td></tr>'
-+'<tr><td style="padding:14px 0 0 0;'+F+'font-size:14px;line-height:21px;color:#FFFFFF;">'+line.join(SEP)+'</td></tr>'
-+'<tr><td style="padding:4px 0 0 0;'+F+'font-size:14px;line-height:21px;">'+links+'</td></tr>'
-+'</table></td></tr></table>';}
+if(v.email)line.push('<a href="mailto:'+esc(v.email)+'" style="color:#090F05;text-decoration:none;">'+esc(v.email)+'</a>');
+if(v.phone)line.push('<a href="tel:'+esc(v.phone.replace(/[^+0-9]/g,""))+'" style="color:#090F05;text-decoration:none;">'+esc(v.phone)+'</a>');
+var links='<a href="https://www.spade.com" style="color:#3F7308;text-decoration:underline;">spade.com</a>';
+if(v.linkedin)links+=SEP+'<a href="'+esc(v.linkedin)+'" style="color:#3F7308;text-decoration:underline;">LinkedIn</a>';
+return '<table cellpadding="0" cellspacing="0" border="0" role="presentation" width="420" style="width:420px;max-width:100%;border-collapse:collapse;">'
++'<tr><td style="padding:0 0 12px 0;'+F+'font-size:15px;line-height:20px;font-weight:bold;color:#090F05;">'+esc(v.name)+'<br><span style="font-weight:normal;font-size:13px;line-height:19px;color:#4A5B38;">'+esc(v.title)+', Spade</span></td></tr>'
++'<tr><td style="border-top:1px solid #D8E5CA;padding:12px 0 0 0;'+F+'font-size:13px;line-height:20px;color:#090F05;">'+line.join(SEP)+'<br>'+links+'</td></tr>'
++'<tr><td style="padding:12px 0 0 0;"><a href="https://www.spade.com"><img src="'+LOGO+'" alt="Spade" width="72" height="15" style="display:block;border:0;width:72px;height:15px;"></a></td></tr>'
++'</table>';}
 var f=document.getElementById('f'),sig=document.getElementById('sig');
 function render(){var v={};new FormData(f).forEach(function(x,k){v[k]=x.trim()});sig.innerHTML=build(v);}
 f.addEventListener('input',render);render();
