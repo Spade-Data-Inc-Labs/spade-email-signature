@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spade email signature</title>
+<style>
+body{margin:0;background:#F4FAED;color:#090F05;font:400 16px/1.4 "FT Polar","Helvetica Neue",Arial,sans-serif}
+main{max-width:760px;margin:0 auto;padding:40px 24px}
+h1{font:500 30px/1.15 "NaN SuperX Sans Display","Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em;margin:0 0 8px;color:#18280E}
+p{margin:0 0 20px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+label{display:flex;flex-direction:column;font:400 13px/1.2 "FT Polar Mono",ui-monospace,Menlo,monospace;gap:6px;color:#4A5B38}
+input{font:400 16px Arial,sans-serif;padding:10px 12px;border:1px solid #B3C5A0;border-radius:6px;background:#fff;color:#090F05}
+.full{grid-column:1/-1}
+.stage{background:#fff;border:1px solid #D8E5CA;border-radius:8px;padding:28px;margin-bottom:20px;overflow-x:auto}
+button{background:#B2EB76;color:#090F05;border:0;border-radius:8px;padding:13px 22px;font:500 15px "FT Polar Mono",ui-monospace,monospace;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid #3F7308;outline-offset:2px}
+ol{padding-left:20px;margin:28px 0 0}li{margin-bottom:8px}
+#status{margin-left:14px;color:#3F7308}
+@media(max-width:560px){form{grid-template-columns:1fr}}
+</style></head><body><main>
+<h1>Spade email signature</h1>
+<p>Fill in your details, then copy the signature into Gmail.</p>
+<form id="f" autocomplete="off">
+<label>Full name<input name="name" value="Anna Example"></label>
+<label>Job title<input name="title" value="Marketing"></label>
+<label>Email<input name="email" value="anna@spade.com"></label>
+<label>Phone<input name="phone" value="+1 555 010 0100"></label>
+<label class="full">LinkedIn profile URL<input name="linkedin" value="https://www.linkedin.com/in/your-name"></label>
+</form>
+<div class="stage"><div id="sig"></div></div>
+<button type="button" id="copy">Copy signature</button><span id="status" role="status"></span>
+<ol>
+<li>Click <b>Copy signature</b>.</li>
+<li>In Gmail, open Settings, then See all settings, then General, then Signature.</li>
+<li>Create a new signature, click in the box and paste (Ctrl+V or Cmd+V).</li>
+<li>The logo loads from this page's web address, so Gmail keeps it. If it still does not show, click the image icon in the signature box and add the logo by its web address.</li>
+<li>Choose it as the default for new emails and replies, then save.</li>
+</ol>
+</main>
+<script>
+var LOGO=(location.protocol.indexOf("http")===0)?new URL("logo-spade-white.png",location.href).href:"logo-spade-white.png";
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+function build(v){
+var F='font-family:Arial,Helvetica,sans-serif;';
+var line=[];var SEP='<span style="color:#B3C5A0;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>';
+if(v.email)line.push('<a href="mailto:'+esc(v.email)+'" style="color:#FFFFFF;text-decoration:none;">'+esc(v.email)+'</a>');
+if(v.phone)line.push('<a href="tel:'+esc(v.phone.replace(/[^+0-9]/g,""))+'" style="color:#FFFFFF;text-decoration:none;">'+esc(v.phone)+'</a>');
+var links='<a href="https://www.spade.com" style="color:#B2EB76;text-decoration:underline;">spade.com</a>';
+if(v.linkedin)links+=SEP+'<a href="'+esc(v.linkedin)+'" style="color:#B2EB76;text-decoration:underline;">LinkedIn</a>';
+return '<table cellpadding="0" cellspacing="0" border="0" role="presentation" width="480" style="width:480px;max-width:100%;border-collapse:collapse;"><tr><td bgcolor="#18280E" style="background-color:#18280E;padding:24px 28px;border-radius:8px;'+F+'">'
++'<table cellpadding="0" cellspacing="0" border="0" role="presentation" width="424" style="width:424px;border-collapse:collapse;">'
++'<tr><td style="padding:0 0 18px 0;"><a href="https://www.spade.com"><img src="'+LOGO+'" alt="Spade" width="104" height="21" style="display:block;border:0;width:104px;height:21px;"></a></td></tr>'
++'<tr><td style="font-size:0;line-height:0;"><table cellpadding="0" cellspacing="0" border="0" role="presentation" width="40"><tr><td width="40" height="2" bgcolor="#B2EB76" style="background-color:#B2EB76;font-size:0;line-height:0;height:2px;">&nbsp;</td></tr></table></td></tr>'
++'<tr><td style="padding:16px 0 0 0;'+F+'font-size:20px;line-height:24px;font-weight:bold;color:#FFFFFF;">'+esc(v.name)+'</td></tr>'
++'<tr><td style="padding:2px 0 0 0;'+F+'font-size:14px;line-height:20px;color:#B2EB76;">'+esc(v.title)+', Spade</td></tr>'
++'<tr><td style="padding:14px 0 0 0;'+F+'font-size:14px;line-height:21px;color:#FFFFFF;">'+line.join(SEP)+'</td></tr>'
++'<tr><td style="padding:4px 0 0 0;'+F+'font-size:14px;line-height:21px;">'+links+'</td></tr>'
++'</table></td></tr></table>';}
+var f=document.getElementById('f'),sig=document.getElementById('sig');
+function render(){var v={};new FormData(f).forEach(function(x,k){v[k]=x.trim()});sig.innerHTML=build(v);}
+f.addEventListener('input',render);render();
+document.getElementById('copy').onclick=function(){
+var s=document.getElementById('status'),r=document.createRange();r.selectNode(sig.firstChild);
+var sel=getSelection();sel.removeAllRanges();sel.addRange(r);
+try{document.execCommand('copy');s.textContent='Copied. Paste it into Gmail.'}catch(e){s.textContent='Select the signature and copy it.'}
+};
+</script></body></html>
